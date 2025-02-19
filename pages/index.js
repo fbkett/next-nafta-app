@@ -1,6 +1,24 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import Layout from '../components/Layout';
+import { 
+  Container, 
+  Typography, 
+  Box, 
+  Select, 
+  MenuItem, 
+  Paper, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow,
+  CircularProgress,
+  Alert,
+  FormControl,
+  InputLabel
+} from '@mui/material';
 
 export default function Home() {
   const [promotions, setPromotions] = useState([]);
@@ -47,7 +65,7 @@ export default function Home() {
     : promotions.filter(p => p.estacion === filter);
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <Head>
         <title>Promociones de Combustible</title>
         <meta name="description" content="Promociones de combustible en Argentina" />
@@ -58,66 +76,102 @@ export default function Home() {
         </script>
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Promociones de Combustible - Febrero 2025
-        </h1>
-
-        <div className={styles.filters}>
-          <select 
-            value={filter} 
-            onChange={(e) => setFilter(e.target.value)}
-            className={styles.select}
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Box sx={{ mb: 4, textAlign: 'center' }}>
+          <Typography 
+            variant="h3" 
+            component="h1" 
+            gutterBottom
+            sx={{ 
+              color: 'primary.light',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}
           >
-            <option value="all">Todas las estaciones</option>
-            <option value="YPF">YPF</option>
-            <option value="AXION">AXION</option>
-            <option value="SHELL">SHELL</option>
-          </select>
-        </div>
+            Promociones de Combustible
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ color: 'primary.main' }}
+          >
+            Febrero 2025
+          </Typography>
+        </Box>
+
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 3, 
+            mb: 4, 
+            background: 'linear-gradient(45deg, #1a2027 30%, #132f4c 90%)'
+          }}
+        >
+          <FormControl fullWidth>
+            <InputLabel>Filtrar por estación</InputLabel>
+            <Select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              label="Filtrar por estación"
+            >
+              <MenuItem value="all">Todas las estaciones</MenuItem>
+              <MenuItem value="YPF">YPF</MenuItem>
+              <MenuItem value="AXION">AXION</MenuItem>
+              <MenuItem value="SHELL">SHELL</MenuItem>
+            </Select>
+          </FormControl>
+        </Paper>
 
         {loading ? (
-          <div className={styles.loadingContainer}>
-            <div className={styles.spinner}></div>
-            <p>Cargando promociones...</p>
-          </div>
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
         ) : (
-          <>
-            {error && <p className={styles.error}>Error: {error}</p>}
-            
-            {!loading && !error && (
-              <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Estación</th>
-                      <th>Día</th>
-                      <th>Promoción</th>
-                      <th>Descuento</th>
-                      <th>Tope Gasto</th>
-                      <th>Tope Devolución</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredPromotions.map((promo, index) => (
-                      <tr key={index}>
-                        <td>{promo.estacion}</td>
-                        <td>{promo.dia}</td>
-                        <td>{promo.promocion}</td>
-                        <td>{promo.descuento}%</td>
-                        <td>${promo.topeGasto.toLocaleString()}</td>
-                        <td>${promo.topeDev.toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </>
+          <Paper elevation={3} sx={{ overflow: 'hidden' }}>
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Estación</TableCell>
+                    <TableCell>Día</TableCell>
+                    <TableCell>Promoción</TableCell>
+                    <TableCell align="right">Descuento</TableCell>
+                    <TableCell align="right">Tope Gasto</TableCell>
+                    <TableCell align="right">Tope Devolución</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredPromotions.map((promo, index) => (
+                    <TableRow 
+                      key={index}
+                      sx={{ '&:hover': { bgcolor: 'action.hover' } }}
+                    >
+                      <TableCell>{promo.estacion}</TableCell>
+                      <TableCell>{promo.dia}</TableCell>
+                      <TableCell>{promo.promocion}</TableCell>
+                      <TableCell align="right">{promo.descuento}%</TableCell>
+                      <TableCell align="right">${promo.topeGasto.toLocaleString()}</TableCell>
+                      <TableCell align="right">${promo.topeDev.toLocaleString()}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
         )}
 
-        <div className={styles.adSpaceFooter}>
-          <ins className="adsbygoogle"
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            mt: 4, 
+            p: 2, 
+            background: 'linear-gradient(45deg, #1a2027 30%, #132f4c 90%)'
+          }}
+        >
+          <div className="adsbygoogle"
                style={{ 
                  display: 'inline-block',
                  width: '728px',
@@ -126,9 +180,10 @@ export default function Home() {
                data-ad-client="ca-pub-1281337810787269"
                data-ad-slot="TU_SLOT_ID"
                data-ad-format="horizontal"
-               data-full-width-responsive="false"></ins>
-        </div>
-      </main>
-    </div>
+               data-full-width-responsive="false">
+          </div>
+        </Paper>
+      </Container>
+    </Layout>
   );
 } 
