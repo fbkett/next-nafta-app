@@ -76,8 +76,8 @@ export default function Home() {
         </script>
       </Head>
 
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ mb: 4, textAlign: 'center' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+        <Box sx={{ mb: { xs: 2, md: 4 }, textAlign: 'center' }}>
           <Typography 
             variant="h3" 
             component="h1" 
@@ -85,14 +85,18 @@ export default function Home() {
             sx={{ 
               color: 'primary.light',
               fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' }
             }}
           >
             Promociones de Combustible
           </Typography>
           <Typography 
             variant="h5" 
-            sx={{ color: 'primary.main' }}
+            sx={{ 
+              color: 'primary.main',
+              fontSize: { xs: '1.25rem', sm: '1.5rem' }
+            }}
           >
             Febrero 2025
           </Typography>
@@ -101,8 +105,8 @@ export default function Home() {
         <Paper 
           elevation={3} 
           sx={{ 
-            p: 3, 
-            mb: 4, 
+            p: { xs: 2, md: 3 }, 
+            mb: { xs: 2, md: 4 }, 
             background: 'linear-gradient(45deg, #1a2027 30%, #132f4c 90%)'
           }}
         >
@@ -132,15 +136,21 @@ export default function Home() {
         ) : (
           <Paper elevation={3} sx={{ overflow: 'hidden' }}>
             <TableContainer>
-              <Table>
+              <Table size="small">
                 <TableHead>
                   <TableRow>
                     <TableCell>Estación</TableCell>
                     <TableCell>Día</TableCell>
                     <TableCell>Promoción</TableCell>
-                    <TableCell align="right">Descuento</TableCell>
-                    <TableCell align="right">Tope Gasto</TableCell>
-                    <TableCell align="right">Tope Devolución</TableCell>
+                    <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      Descuento
+                    </TableCell>
+                    <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      Tope Gasto
+                    </TableCell>
+                    <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      Tope Dev.
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -151,10 +161,24 @@ export default function Home() {
                     >
                       <TableCell>{promo.estacion}</TableCell>
                       <TableCell>{promo.dia}</TableCell>
-                      <TableCell>{promo.promocion}</TableCell>
-                      <TableCell align="right">{promo.descuento}%</TableCell>
-                      <TableCell align="right">${promo.topeGasto.toLocaleString()}</TableCell>
-                      <TableCell align="right">${promo.topeDev.toLocaleString()}</TableCell>
+                      <TableCell>
+                        {promo.promocion}
+                        {/* Información adicional para móviles */}
+                        <Box sx={{ display: { xs: 'block', sm: 'none' }, mt: 1, fontSize: '0.875rem' }}>
+                          <div>{promo.descuento}% descuento</div>
+                          <div>Tope: ${promo.topeGasto.toLocaleString()}</div>
+                          <div>Dev: ${promo.topeDev.toLocaleString()}</div>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                        {promo.descuento}%
+                      </TableCell>
+                      <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                        ${promo.topeGasto.toLocaleString()}
+                      </TableCell>
+                      <TableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                        ${promo.topeDev.toLocaleString()}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -166,22 +190,31 @@ export default function Home() {
         <Paper 
           elevation={3} 
           sx={{ 
-            mt: 4, 
+            mt: { xs: 2, md: 4 }, 
             p: 2, 
-            background: 'linear-gradient(45deg, #1a2027 30%, #132f4c 90%)'
+            background: 'linear-gradient(45deg, #1a2027 30%, #132f4c 90%)',
+            overflow: 'hidden'
           }}
         >
-          <div className="adsbygoogle"
-               style={{ 
-                 display: 'inline-block',
-                 width: '728px',
-                 height: '90px'
-               }}
-               data-ad-client="ca-pub-1281337810787269"
-               data-ad-slot="TU_SLOT_ID"
-               data-ad-format="horizontal"
-               data-full-width-responsive="false">
-          </div>
+          <Box sx={{ 
+            width: '100%', 
+            overflow: 'auto', 
+            display: 'flex', 
+            justifyContent: 'center' 
+          }}>
+            <div className="adsbygoogle"
+                 style={{ 
+                   display: 'inline-block',
+                   width: '728px',
+                   height: '90px',
+                   maxWidth: '100%'
+                 }}
+                 data-ad-client="ca-pub-1281337810787269"
+                 data-ad-slot="TU_SLOT_ID"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="true">
+            </div>
+          </Box>
         </Paper>
       </Container>
     </Layout>
