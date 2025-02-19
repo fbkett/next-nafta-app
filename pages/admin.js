@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/Admin.module.css';
+import styles from '../src/styles/Admin.module.css';
 
 export default function Admin() {
   const [promotions, setPromotions] = useState([]);
