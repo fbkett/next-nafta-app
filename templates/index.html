@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Promociones de Combustible</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <style>
+        .data {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .ad-space {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Promociones de Combustible</h1>
+    
+    <!-- Espacio para AdSense -->
+    <div class="ad-space">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="tu-id-cliente"
+             data-ad-slot="tu-id-slot"
+             data-ad-format="auto"></ins>
+    </div>
+
+    <!-- Tabla de promociones -->
+    {% for table in tables %}
+        {{ table|safe }}
+    {% endfor %}
+</body>
+</html> 
