@@ -34,6 +34,14 @@ export default function Home() {
     fetchPromotions();
   }, []);
 
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error('Error al inicializar AdSense:', err);
+    }
+  }, []);
+
   const filteredPromotions = filter === 'all' 
     ? promotions 
     : promotions.filter(p => p.estacion === filter);
@@ -43,12 +51,16 @@ export default function Home() {
       <Head>
         <title>Promociones de Combustible</title>
         <meta name="description" content="Promociones de combustible en Argentina" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXX" crossOrigin="anonymous"></script>
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1281337810787269" 
+          crossOrigin="anonymous">
+        </script>
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Promociones de Combustible - Febrero 2024
+          Promociones de Combustible - Febrero 2025
         </h1>
 
         <div className={styles.filters}>
@@ -62,15 +74,6 @@ export default function Home() {
             <option value="AXION">AXION</option>
             <option value="SHELL">SHELL</option>
           </select>
-        </div>
-
-        <div className={styles.adSpace}>
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client="ca-pub-XXXXX"
-               data-ad-slot="XXXXX"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
         </div>
 
         {loading ? (
@@ -112,6 +115,19 @@ export default function Home() {
             )}
           </>
         )}
+
+        <div className={styles.adSpaceFooter}>
+          <ins className="adsbygoogle"
+               style={{ 
+                 display: 'inline-block',
+                 width: '728px',
+                 height: '90px'
+               }}
+               data-ad-client="ca-pub-1281337810787269"
+               data-ad-slot="TU_SLOT_ID"
+               data-ad-format="horizontal"
+               data-full-width-responsive="false"></ins>
+        </div>
       </main>
     </div>
   );
