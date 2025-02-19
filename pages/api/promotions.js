@@ -1,4 +1,4 @@
-import { getSheetData } from '../../lib/sheets.js';
+import { getSheetData } from '../../lib/sheets';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
