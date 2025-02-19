@@ -6,6 +6,14 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('API: Iniciando solicitud...');
+    console.log('Variables de entorno presentes:', {
+      hasClientEmail: !!process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+      hasPrivateKey: !!process.env.GOOGLE_SHEETS_PRIVATE_KEY,
+      hasSpreadsheetId: !!process.env.SPREADSHEET_ID,
+      spreadsheetId: process.env.SPREADSHEET_ID // Este es seguro mostrarlo
+    });
+
     const promotions = await getSheetData();
     
     if (!promotions || promotions.length === 0) {
@@ -22,10 +30,21 @@ export default async function handler(req, res) {
       count: promotions.length
     });
   } catch (error) {
-    console.error('Error in API:', error);
-    res.status(500).json({ 
+    console.error('Error detallado en API:', {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+      code: error.code,
+      response: error.response?.data
+    });
+
+    return res.status(500).json({ 
       error: 'Error al obtener las promociones',
-      message: process.env.NODE_ENV === 'development' ? error.message : undefined
+      details: {
+        message: error.message,
+        code: error.code,
+        type: error.name
+      }
     });
   }
 } 
